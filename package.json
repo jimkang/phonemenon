@@ -1,0 +1,18 @@
+{
+  "name": "phonemenon",
+  "version": "0.1.0",
+  "description": "Processes a phoneme list.",
+  "main": "phoneme.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "phonemes",
+    "syllables"
+  ],
+  "author": "Jim Kang",
+  "license": "ISC",
+  "dependencies": {
+    "split": "~0.3.0"
+  }
+}

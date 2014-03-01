@@ -13,6 +13,7 @@
   "author": "Jim Kang",
   "license": "ISC",
   "dependencies": {
-    "split": "~0.3.0"
+    "split": "~0.3.0",
+    "through2": "~0.4.1"
   }
 }

@@ -1,7 +1,7 @@
 // Usage:
 // cat phoneme_list.txt | node phoneme.js
 
-var split = require('split');
+var through2 = require('through2');
 
 var settings = {
   dictCommentMarker: ';;;',
@@ -11,33 +11,14 @@ var settings = {
   }
 };
 
-function textToPhoneme(readStream, writeStream, limit) {
-  var count = 0;
-
-  this.readStream = readStream;
-  this.writeStream = writeStream;
-
-  readStream.resume();
-  readStream.setEncoding('utf8');
-  readStream.pipe(split()).on('data', processLine.bind(this));
-  readStream.on('end', function readEnded() {
-    console.log('Done.');
-  });
-}
-
-function processLine(line) {
-  ++this.count;
-  if (this.limit && this.count > this.limit) {
-    this.readStream.destroy();
+var textToPhonemeStream = through2({
+    objectMode: true
+  },
+  function lineToPhoneme(chunk, enc, callback) {
+    this.push(annotateLine(chunk));
+    callback();
   }
-  else if (line.indexOf(settings.dictCommentMarker) !== 0) {
-    if (line.length < 3) {
-      console.log('Skipping empty line.');
-      return;
-    }
-    this.writeStream.write(annotateLine(line));
-  }
-}
+);
 
 function annotateLine(line) {
   var wordAndPhonemes = line.split('  ');
@@ -68,4 +49,4 @@ function parsePhonemeToken(token, index) {
   return {phoneme: phoneme, stress: stress};
 }
 
-module.exports = {textToPhoneme: textToPhoneme};
+module.exports = {textToPhonemeStream: textToPhonemeStream};

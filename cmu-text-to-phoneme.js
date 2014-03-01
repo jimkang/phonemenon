@@ -1,6 +1,3 @@
-// Usage:
-// cat phoneme_list.txt | node phoneme.js
-
 var through2 = require('through2');
 
 var settings = {

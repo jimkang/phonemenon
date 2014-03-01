@@ -22,7 +22,7 @@ var analysisStream = new AnalyzePhonemeFollowerStream({
 			  encoding: 'utf8',
 			});
 			if ('--make-module' === process.argv[3]) {
-				writableFileStream.write('module.exports = \n');
+				writableFileStream.write('module.exports = ');
 			}
 
 			writableFileStream.write(

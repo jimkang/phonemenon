@@ -46,4 +46,4 @@ function parsePhonemeToken(token, index) {
   return {phoneme: phoneme, stress: stress};
 }
 
-module.exports = {textToPhonemeStream: textToPhonemeStream};
+module.exports = textToPhonemeStream;

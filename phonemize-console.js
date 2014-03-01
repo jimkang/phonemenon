@@ -1,6 +1,6 @@
 // Usage:
 // cat phoneme_list.txt | node phonemize-console.js
-var cmuTextToPhonemeMod = require('./cmu-text-to-phoneme');
+var cmuTextToPhonemeStream = require('./cmu-text-to-phoneme');
 var split = require('split');
 var stringifyThrough = require('./stringify-through');
 
@@ -11,7 +11,7 @@ process.stdin.setEncoding('utf8');
 
 process.stdin
 	.pipe(split())
-	.pipe(cmuTextToPhonemeMod.textToPhonemeStream)
+	.pipe(cmuTextToPhonemeStream)
 	.pipe(stringifyThrough.createStream({indentString: '  '}))
 	.pipe(process.stdout);
 

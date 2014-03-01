@@ -12,9 +12,11 @@ var textToPhonemeStream = through2({
     objectMode: true
   },
   function lineToPhoneme(chunk, enc, callback) {
-    var annotated = annotateLine(chunk);
-    if (annotated) {
-      this.push(annotated);
+    if (chunk.indexOf(settings.dictCommentMarker) !== 0) {
+      var annotated = annotateLine(chunk);
+      if (annotated) {
+        this.push(annotated);
+      }    
     }
     callback();
   }

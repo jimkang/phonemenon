@@ -1,9 +1,14 @@
 // Usage:
-// cat phoneme_list.txt | node phonemize-analyze-ff.js
+// cat phoneme_list.txt | node phonemize-analyze-ff.js filename.txt [--make-module]
 var cmuTextToPhonemeStream = require('./cmu-text-to-phoneme');
 var split = require('split');
-var stringifyThrough = require('./stringify-through');
 var AnalyzePhonemeFollowerStream = require('./followerfreq-analysis-stream');
+var fs = require('fs');
+
+var settings = {
+  outFilename: process.argv[2]
+};  
+
 
 var analysisStream = new AnalyzePhonemeFollowerStream({
 	objectMode: true,
@@ -12,7 +17,20 @@ var analysisStream = new AnalyzePhonemeFollowerStream({
 			console.log(error);
 		}
 		else {
-			console.log(followerFreqsForPhonemes);
+			var writableFileStream = fs.createWriteStream(settings.outFilename, {
+			  flags: 'w',
+			  encoding: 'utf8',
+			});
+			if ('--make-module' === process.argv[3]) {
+				writableFileStream.write('module.exports = \n');
+			}
+
+			writableFileStream.write(
+				JSON.stringify(followerFreqsForPhonemes, null, '  '));
+
+			if ('--make-module' === process.argv[3]) {
+				writableFileStream.write(';\n');
+			}
 		}
 	}
 });

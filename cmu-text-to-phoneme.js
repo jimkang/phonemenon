@@ -12,7 +12,10 @@ var textToPhonemeStream = through2({
     objectMode: true
   },
   function lineToPhoneme(chunk, enc, callback) {
-    this.push(annotateLine(chunk));
+    var annotated = annotateLine(chunk);
+    if (annotated) {
+      this.push(annotated);
+    }
     callback();
   }
 );
@@ -20,7 +23,7 @@ var textToPhonemeStream = through2({
 function annotateLine(line) {
   var wordAndPhonemes = line.split('  ');
   if (wordAndPhonemes.length < 2) {
-    return {};
+    return;
   }
 
   var phonemeStrings = wordAndPhonemes[1].split(' ');

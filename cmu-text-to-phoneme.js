@@ -11,28 +11,40 @@ var settings = {
   }
 };
 
-var count = 0;
+function textToPhoneme(readStream, writeStream, limit) {
+  var count = 0;
 
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
-process.stdin.pipe(split()).on('data', function processLine(line) {
-  ++count;
-  if (count > 100) {
-    process.stdin.destroy();
+  this.readStream = readStream;
+  this.writeStream = writeStream;
+
+  readStream.resume();
+  readStream.setEncoding('utf8');
+  readStream.pipe(split()).on('data', processLine.bind(this));
+  readStream.on('end', function readEnded() {
+    console.log('Done.');
+  });
+}
+
+function processLine(line) {
+  ++this.count;
+  if (this.limit && this.count > this.limit) {
+    this.readStream.destroy();
   }
-  else {
-    if (line.indexOf(settings.dictCommentMarker) !== 0) {
-      console.log(annotateLine(line));
+  else if (line.indexOf(settings.dictCommentMarker) !== 0) {
+    if (line.length < 3) {
+      console.log('Skipping empty line.');
+      return;
     }
+    this.writeStream.write(annotateLine(line));
   }
-});
-
-process.stdin.on('end', function stdinEnded() {
-  console.log('Done.');
-});
+}
 
 function annotateLine(line) {
   var wordAndPhonemes = line.split('  ');
+  if (wordAndPhonemes.length < 2) {
+    return {};
+  }
+
   var phonemeStrings = wordAndPhonemes[1].split(' ');
 
   return {
@@ -55,3 +67,5 @@ function parsePhonemeToken(token, index) {
   
   return {phoneme: phoneme, stress: stress};
 }
+
+module.exports = {textToPhoneme: textToPhoneme};

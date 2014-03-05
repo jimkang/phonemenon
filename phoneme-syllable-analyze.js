@@ -54,7 +54,6 @@ process.stdin
   .pipe(split())
   .pipe(cmuTextToPhonemeStream)
   .pipe(syllablizeThrough.createStream())
-  // .pipe(stringifyThrough.createStream({followupString: '\n'}))
   .pipe(analysisStream);
 
 

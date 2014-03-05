@@ -10,31 +10,14 @@ var settings = {
   outFilename: process.argv[2]
 };  
 
+var writableFileStream = fs.createWriteStream(settings.outFilename, {
+  flags: 'w',
+  encoding: 'utf8',
+});
 
-// var analysisStream = new AnalyzePhonemeFollowerStream({
-// 	objectMode: true,
-// 	done: function analysisDone(error, followerFreqsForPhonemes) {
-// 		if (error) {
-// 			console.log(error);
-// 		}
-// 		else {
-			var writableFileStream = fs.createWriteStream(settings.outFilename, {
-			  flags: 'w',
-			  encoding: 'utf8',
-			});
-			if ('--make-module' === process.argv[3]) {
-				writableFileStream.write('module.exports = ');
-			}
-
-			// writableFileStream.write(
-			// 	JSON.stringify(followerFreqsForPhonemes, null, '  '));
-
-// 			if ('--make-module' === process.argv[3]) {
-// 				writableFileStream.write(';\n');
-// 			}
-// 		}
-// 	}
-// });
+if ('--make-module' === process.argv[3]) {
+	writableFileStream.write('module.exports = ');
+}
 
 process.stdin.setEncoding('utf8');
 

@@ -1,4 +1,4 @@
-// It's a stream analyzes phoneme groups you write to it, then returns the 
+// It's a stream that analyzes phoneme groups you write to it, then returns the 
 // analysis via the callback when the end is reached.
 
 var Writable = require('stream').Writable;

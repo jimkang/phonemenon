@@ -87,6 +87,9 @@ The output of a run of phoneme-analyze-ff, saved.
 
 **phoneme-syllable-analyze.js**
 
+A script that pipes [CMU Pronouncing Dictionary](http://www.speech.cs.cmu.edu/cgi-bin/cmudict) text into `syllablize-through`, then pipes that into `syllable-freq-analysis` to get a JSON object that has a key for every possible syllable whose value is an object listing all of the syllables that could follow it, along with the number of times the syllable did follow it. There is a special key called 'START' that lists all the syllables that can start a word.
+
+    cat ../cmudict/cmudict.0.7a | node phoneme-syllable-analyze.js syllable-analysis.json
 
 **phonemize-analyze-ff.js**
 
@@ -121,8 +124,9 @@ Or:
 
 A stream that converts JSON objects into strings.
 
-**syllable-analysis.js**
+**syllable-analysis.json**
 
+The saved output of `phoneme-syllable-analyze.js`.
 
 **syllable-list.json**
 
@@ -130,10 +134,11 @@ The saved output of `phonemize-syllablize.js`.
 
 **syllablefreq-analysis-stream.js**
 
+A stream that analyzes phoneme groups (that have `syllables` properties) you write to it, then returns the analysis: syllables by frequency and following frequency.
 
 **syllablize-through.js**
 
-Creates streams that adds `syllables` properties to [phoneme groups](#phoneme-group). A word group with a `syllables` property looks like this:
+Creates streams that adds `syllables` properties to [phoneme groups](#phoneme-group). A phoneme group with `syllables` properties looks like this:
 
     {
       "word": "ABDELLA",
@@ -181,16 +186,8 @@ Creates streams that adds `syllables` properties to [phoneme groups](#phoneme-gr
 
 **typesofphonemes.js**
 
+A module for classifying phonemes into the broad categories "consonantish" and "vowelish".
 
-****
-
-
-Tests
------
-
-Run tests with `make test`.
-
-[Specification](specification.md)
 
 License
 -------

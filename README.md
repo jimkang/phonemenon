@@ -10,6 +10,32 @@ Installation
 
 TODO: Add build step to package.json.
 
+Data structures
+---------------
+
+<a name="phoneme-group"></a>
+There's something I'll refer to as a "phoneme group" which will look like this:
+
+    {
+      "word": "EARTHY",
+      "phonemes": [
+        {
+          "phoneme": "ER",
+          "stress": 1
+        },
+        {
+          "phoneme": "TH",
+          "stress": -1
+        },
+        {
+          "phoneme": "IY",
+          "stress": 0
+        }
+      ]
+    }
+
+They'll all have a `word` property that is the word that the phoneme group represents and a `phonemes` array that contains objects that each contain a `phoneme` and a `stress` value. A `stress` of 1 indicates that a phoneme has the primary stress and 2 indicates secondary. 0 indicates no stress and -1 indicates a phoneme that does not start a syllable.
+
 What do all of these things do?
 -------------------------------
 
@@ -19,25 +45,7 @@ A stream that converts lines of text from the [CMU Pronouncing Dictionary](http:
 
     EARTHY  ER1 TH IY0
 
-– into objects like this:
-
-      {
-        "word": "EARTHY",
-        "phonemes": [
-          {
-            "phoneme": "ER",
-            "stress": 1
-          },
-          {
-            "phoneme": "TH",
-            "stress": -1
-          },
-          {
-            "phoneme": "IY",
-            "stress": 0
-          }
-        ]
-      }
+– into [phoneme group](#phoneme-group) objects.
 
 **followerfreq-analysis-stream.js**
 
@@ -94,99 +102,20 @@ A script that converts CMU text that's piped in via stdin into stringified JSON 
 
     cat cmudict.0.7a | node phonemize-console.js
 
-Output will be a whole bunch of JSON objects like this:
-
-    {
-      "word": "CONTRITION",
-      "phonemes": [
-        {
-          "phoneme": "K",
-          "stress": -1
-        },
-        {
-          "phoneme": "AH",
-          "stress": 0
-        },
-        {
-          "phoneme": "N",
-          "stress": -1
-        },
-        {
-          "phoneme": "T",
-          "stress": -1
-        },
-        {
-          "phoneme": "R",
-          "stress": -1
-        },
-        {
-          "phoneme": "IH",
-          "stress": 1
-        },
-        {
-          "phoneme": "SH",
-          "stress": -1
-        },
-        {
-          "phoneme": "AH",
-          "stress": 0
-        },
-        {
-          "phoneme": "N",
-          "stress": -1
-        }
-      ]
-    }{
-      "word": "CONTRIVANCE",
-      "phonemes": [
-        {
-          "phoneme": "K",
-          "stress": -1
-        },
-        {
-          "phoneme": "AH",
-          "stress": 0
-        },
-        {
-          "phoneme": "N",
-          "stress": -1
-        },
-        {
-          "phoneme": "T",
-          "stress": -1
-        },
-        {
-          "phoneme": "R",
-          "stress": -1
-        },
-        {
-          "phoneme": "AY",
-          "stress": 1
-        },
-        {
-          "phoneme": "V",
-          "stress": -1
-        },
-        {
-          "phoneme": "AH",
-          "stress": 0
-        },
-        {
-          "phoneme": "N",
-          "stress": -1
-        },
-        {
-          "phoneme": "S",
-          "stress": -1
-        }
-      ]
-    }
+Output will be a whole bunch of [phoneme group](#phoneme-group) JSON objects.
 
 **phonemize-file.js**
 
 
 **phonemize-syllablize.js**
 
+A script that pipes [CMU Pronouncing Dictionary](http://www.speech.cs.cmu.edu/cgi-bin/cmudict) lines into `syllablize-through` to get phoneme groups with syllables, then writes those to a file. Example usage:
+
+    cat ../cmudict/cmudict.0.7a | node phonemize-syllablize.js syllable-list.json
+
+Or:
+
+    make syllable-list.json
 
 **stringify-through.js**
 
@@ -197,12 +126,58 @@ A stream that converts JSON objects into strings.
 
 **syllable-list.json**
 
+The saved output of `phonemize-syllablize.js`.
 
 **syllablefreq-analysis-stream.js**
 
 
 **syllablize-through.js**
 
+Creates streams that adds `syllables` properties to [phoneme groups](#phoneme-group). A word group with a `syllables` property looks like this:
+
+    {
+      "word": "ABDELLA",
+      "phonemes": [
+        {
+          "phoneme": "AE",
+          "stress": 2
+        },
+        {
+          "phoneme": "B",
+          "stress": -1
+        },
+        {
+          "phoneme": "D",
+          "stress": -1
+        },
+        {
+          "phoneme": "EH",
+          "stress": 1
+        },
+        {
+          "phoneme": "L",
+          "stress": -1
+        },
+        {
+          "phoneme": "AH",
+          "stress": 0
+        }
+      ],
+      "syllables": [
+        [
+          "AE",
+          "B"
+        ],
+        [
+          "D",
+          "EH"
+        ],
+        [
+          "L",
+          "AH"
+        ]
+      ]
+    }
 
 **typesofphonemes.js**
 

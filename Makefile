@@ -1,7 +1,10 @@
-# Line-separated JSON
-syllable-list.json: ../cmudict/cmudict.0.7a
-	cat ../cmudict/cmudict.0.7a | node phonemize-syllablize.js syllable-list.json
+CMUDICT = ../cmudict/cmudict.0.7a
 
-# 250 Wordnik calls are allowed per minute. This could take a while.
-syllablespellings.db: syllable-list.json
-	cat syllable-list.json | node matchhypenationstosyllables.js
+phoneme-groups-with-syllables.json: $(CMUDICT)
+	cat $(CMUDICT) | node phonemize-syllablize.js phoneme-groups-with-syllables.json
+
+syllable-follower-analysis.json: $(CMUDICT)
+	cat $(CMUDICT) | node phoneme-syllable-analyze.js syllable-follower-analysis.json
+
+phoneme-follow-frequencies.js: $(CMUDICT)
+	cat $(CMUDICT) | node phonemize-analyze-ff.js phoneme-follow-frequencies.js --make-module

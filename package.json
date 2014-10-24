@@ -1,7 +1,7 @@
 {
   "name": "phonemenon",
-  "version": "0.1.0",
-  "description": "Processes a phoneme list.",
+  "version": "1.0.0",
+  "description": "A collection of modules and scripts for doing things with phonemes.",
   "main": "phoneme.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

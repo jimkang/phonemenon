@@ -1,4 +1,4 @@
-CMUDICT = ../cmudict/cmudict.0.7a
+CMUDICT = ext/cmudict.0.7a
 
 phoneme-groups-with-syllables.json: $(CMUDICT)
 	cat $(CMUDICT) | node phonemize-syllablize.js phoneme-groups-with-syllables.json

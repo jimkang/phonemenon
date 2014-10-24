@@ -23,4 +23,3 @@ process.stdin
   .pipe(cmuTextToPhonemeStream)
   .pipe(stringifyThrough.createStream({followupString: '\n'}))
   .pipe(writableFileStream);
-

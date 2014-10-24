@@ -109,6 +109,9 @@ Output will be a whole bunch of [phoneme group](#phoneme-group) JSON objects.
 
 **phonemize-file.js**
 
+A script that uses `cmuTextToPhonemeStream.js` to create a line-separated JSON file full of  [phoneme groups](#phoneme-group). Example.
+
+    cat cmudict.0.7a | node phonemize-file.js phonemes.json
 
 **phonemize-syllablize.js**
 

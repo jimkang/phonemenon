@@ -1,6 +1,6 @@
 {
   "name": "phonemenon",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A collection of modules and scripts for doing things with phonemes.",
   "main": "phoneme.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "author": "Jim Kang",
   "license": "ISC",
   "dependencies": {
+    "nomnom": "^1.8.0",
     "split": "~0.3.0",
     "through2": "~0.4.1"
   }

@@ -5,10 +5,18 @@ var split = require('split');
 var AnalyzePhonemeFollowerStream = require('./followerfreq-analysis-stream');
 var fs = require('fs');
 
-var settings = {
-  outFilename: process.argv[2]
-};  
-
+var cmdOpts = require('nomnom')
+  .option('makeModule', {
+    full: 'make-module',
+    flag: true,
+    help: 'Make a module instead of a JSON file.'
+  })
+  .option('analytzeInSyllables', {
+    metavar: '<behavior>',
+    help: 'Analyze phoneme follower frequencies within syllables.',
+    flag: true
+  })
+  .parse();
 
 var analysisStream = new AnalyzePhonemeFollowerStream({
 	objectMode: true,
@@ -17,19 +25,21 @@ var analysisStream = new AnalyzePhonemeFollowerStream({
 			console.log(error);
 		}
 		else {
-			var writableFileStream = fs.createWriteStream(settings.outFilename, {
-			  flags: 'w',
-			  encoding: 'utf8',
-			});
-			if ('--make-module' === process.argv[3]) {
-				writableFileStream.write('module.exports = ');
+			// var writableFileStream = fs.createWriteStream(settings.outFilename, {
+			//   flags: 'w',
+			//   encoding: 'utf8',
+			// });
+			var outStream = process.stdout;
+
+			if (cmdOpts.makeModule) {
+				outStream.write('module.exports = ');
 			}
 
-			writableFileStream.write(
+			outStream.write(
 				JSON.stringify(followerFreqsForPhonemes, null, '  '));
 
-			if ('--make-module' === process.argv[3]) {
-				writableFileStream.write(';\n');
+			if (cmdOpts.makeModule) {
+				outStream.write(';\n');
 			}
 		}
 	}

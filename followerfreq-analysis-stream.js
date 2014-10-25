@@ -3,18 +3,19 @@
 
 var Writable = require('stream').Writable;
 var util = require('util');
+var _ = require('lodash');
 
 util.inherits(AnalyzePhonemeFollowerStream, Writable);
 
-function AnalyzePhonemeFollowerStream(opt) {
-  Writable.call(this, opt);
+function AnalyzePhonemeFollowerStream(opts) {
+  Writable.call(this, opts);
 
   // Must use object mode.
-  if (!opt.objectMode) {
-    opt.objectMode = true;
+  if (!opts.objectMode) {
+    opts.objectMode = true;
   }
 
-  this.opt = opt; 
+  this.opts = opts;
   this.followerFreqsForPhonemes = {};
 }
 
@@ -26,12 +27,12 @@ AnalyzePhonemeFollowerStream.prototype._write = function(group, encoding,
 };
 
 AnalyzePhonemeFollowerStream.prototype.end = function end(callback) {
-  if (this.opt.done) {
-    this.opt.done(null, this.followerFreqsForPhonemes);
+  if (this.opts.done) {
+    this.opts.done(null, this.followerFreqsForPhonemes);
   }
 };
 
-// Phoneme groups will look like this:
+// Incoming phoneme groups will look like this:
 // {
 //   "word": "ABALONE",
 //   "phonemes": [
@@ -43,13 +44,18 @@ AnalyzePhonemeFollowerStream.prototype.end = function end(callback) {
 //     {"phoneme":"N","stress":-1},
 //     {"phoneme":"IY","stress":0}
 //   ]
+//  
 // }
+// 
+// With optional syllables property.
 
 AnalyzePhonemeFollowerStream.prototype.recordPhonemeFollowFrequencies = 
 function recordPhonemeFollowFrequencies(group) {
   var previousPhoneme = null;
-  for (var i = 0; i < group.phonemes.length; ++i) {
-    var phonemeObject = group.phonemes[i];
+  var phonemeSequence = _.pluck(group.phonemes, 'phoneme');
+
+  for (var i = 0; i < phonemeSequence.length; ++i) {
+    var phoneme = phonemeSequence[i];
     if (previousPhoneme) {
       var freqs = {};
       if (previousPhoneme in this.followerFreqsForPhonemes) {
@@ -60,13 +66,13 @@ function recordPhonemeFollowFrequencies(group) {
       }
 
       var frequency = 0;
-      if (phonemeObject.phoneme in freqs) {
-        frequency = freqs[phonemeObject.phoneme];
+      if (phoneme in freqs) {
+        frequency = freqs[phoneme];
       }
       frequency += 1;
-      freqs[phonemeObject.phoneme] = frequency;
+      freqs[phoneme] = frequency;
     }
-    previousPhoneme = phonemeObject.phoneme;
+    previousPhoneme = phoneme;
   }
 };
 

@@ -17,6 +17,7 @@
   "author": "Jim Kang",
   "license": "ISC",
   "dependencies": {
+    "lodash": "^2.4.1",
     "nomnom": "^1.8.0",
     "split": "~0.3.0",
     "through2": "~0.4.1"

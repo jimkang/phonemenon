@@ -3,6 +3,10 @@
   "version": "1.0.1",
   "description": "A collection of modules and scripts for doing things with phonemes.",
   "main": "phoneme.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jimkang/phonemenon.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -20,9 +20,6 @@ var cmdOpts = require('nomnom')
   })
   .parse();
 
-	// console.log(cmdOpts.analyzeInSyllables);
-	// process.exit();
-
 var analysisStream = createFollowerFreqAnalyzeStream({
 	objectMode: true,
 	analyzeInSyllables: cmdOpts.analyzeInSyllables,

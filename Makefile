@@ -9,10 +9,15 @@ syllable-follower-analysis.json: $(CMUDICT)
 phoneme-follow-frequencies.js: $(CMUDICT)
 	cat $(CMUDICT) | node phonemize-analyze-ff.js --make-module > phoneme-follow-frequencies.js
 
+phoneme-follow-frequencies-in-syllables.js: $(CMUDICT)
+	cat $(CMUDICT) | node phonemize-analyze-ff.js --make-module --analyze-in-syllables > phoneme-follow-frequencies-in-syllables.js
+
 test-followerfreq-analysis-stream: test/phoneme-follow-frequencies-baseline.js
 	rm phoneme-follow-frequencies.js
 	make phoneme-follow-frequencies.js
 	diff phoneme-follow-frequencies.js test/phoneme-follow-frequencies-baseline.js
 
-phoneme-follow-frequencies-in-syllables.js: $(CMUDICT)
-	cat $(CMUDICT) | node phonemize-analyze-ff.js --make-module --analyze-in-syllables # > phoneme-follow-frequencies.js
+test-followerfreq-syllable: test/phoneme-follow-frequencies-in-syllables-baseline.js
+	rm phoneme-follow-frequencies-in-syllables.js
+	make phoneme-follow-frequencies-in-syllables.js
+	diff phoneme-follow-frequencies-in-syllables.js test/phoneme-follow-frequencies-in-syllables-baseline.js

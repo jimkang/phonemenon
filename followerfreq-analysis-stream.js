@@ -60,22 +60,21 @@ function createAnalyzeFollowerStream(opts) {
   //     ]
   //   ]
 
-
-  var previousPhoneme;
-
   function recordPhonemeGroupFollowFrequencies(group) {
-    previousPhoneme = null;
     var phonemeSequence;
-    // if (this.opts.analyzeInSyllables) {
-    //   phonemeSequence = group.syllables
-    // }
-    // else {
+    if (opts.analyzeInSyllables) {
+      group.syllables.forEach(recordPhonemeSequenceFrequencies);
+    }
+    else {
       phonemeSequence = _.pluck(group.phonemes, 'phoneme');
       recordPhonemeSequenceFrequencies(phonemeSequence);
-    // }
+    }
   }
 
-  function recordPhonemeSequenceFrequencies(phonemeSequence) {
+  function recordPhonemeSequenceFrequencies(sequence) {
+    var phonemeSequence = sequence.concat('END');
+    var previousPhoneme = 'START';
+
     for (var i = 0; i < phonemeSequence.length; ++i) {
       var phoneme = phonemeSequence[i];
       if (previousPhoneme) {

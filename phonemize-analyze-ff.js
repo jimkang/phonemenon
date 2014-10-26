@@ -2,7 +2,8 @@
 // cat phoneme_list.txt | node phonemize-analyze-ff.js filename.txt [--make-module]
 var cmuTextToPhonemeStream = require('./cmu-text-to-phoneme');
 var split = require('split');
-var AnalyzePhonemeFollowerStream = require('./followerfreq-analysis-stream');
+var createFollowerFreqAnalyzeStream = require('./followerfreq-analysis-stream');
+var syllablizeThrough = require('./syllablize-through');
 var fs = require('fs');
 
 var cmdOpts = require('nomnom')
@@ -11,24 +12,25 @@ var cmdOpts = require('nomnom')
     flag: true,
     help: 'Make a module instead of a JSON file.'
   })
-  .option('analytzeInSyllables', {
+  .option('analyzeInSyllables', {
+  	full: 'analyze-in-syllables',
     metavar: '<behavior>',
     help: 'Analyze phoneme follower frequencies within syllables.',
     flag: true
   })
   .parse();
 
-var analysisStream = new AnalyzePhonemeFollowerStream({
+	// console.log(cmdOpts.analyzeInSyllables);
+	// process.exit();
+
+var analysisStream = createFollowerFreqAnalyzeStream({
 	objectMode: true,
+	analyzeInSyllables: cmdOpts.analyzeInSyllables,
 	done: function analysisDone(error, followerFreqsForPhonemes) {
 		if (error) {
 			console.log(error);
 		}
 		else {
-			// var writableFileStream = fs.createWriteStream(settings.outFilename, {
-			//   flags: 'w',
-			//   encoding: 'utf8',
-			// });
 			var outStream = process.stdout;
 
 			if (cmdOpts.makeModule) {
@@ -47,8 +49,14 @@ var analysisStream = new AnalyzePhonemeFollowerStream({
 
 process.stdin.setEncoding('utf8');
 
-process.stdin
-	.pipe(split())
-	.pipe(cmuTextToPhonemeStream)
-	.pipe(analysisStream);
 
+var stream = process.stdin
+	.pipe(split())
+	.pipe(cmuTextToPhonemeStream);
+
+if (cmdOpts.analyzeInSyllables) {
+	stream = stream.pipe(syllablizeThrough.createStream());
+}
+
+stream
+	.pipe(analysisStream);

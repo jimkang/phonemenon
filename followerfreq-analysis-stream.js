@@ -72,11 +72,27 @@ function createAnalyzeFollowerStream(opts) {
   }
 
   function recordPhonemeSequenceFrequencies(sequence) {
-    var phonemeSequence = sequence.concat('END');
-    var previousPhoneme = 'START';
+    var phonemeSequence;
+    var previousPhoneme;
 
+    if (opts.reverse) {
+      phonemeSequence = ['START'].concat(sequence);
+      previousPhoneme = 'END';
+    }
+    else {
+      phonemeSequence = sequence.concat('END');
+      previousPhoneme = 'START';
+    }
+    
     for (var i = 0; i < phonemeSequence.length; ++i) {
-      var phoneme = phonemeSequence[i];
+      var phoneme;
+      if (opts.reverse) {
+        phoneme = phonemeSequence[phonemeSequence.length - 1 - i];
+      }
+      else {
+        phoneme = phonemeSequence[i];        
+      }
+
       if (previousPhoneme) {
         var freqs = {};
         if (previousPhoneme in followerFreqsForPhonemes) {

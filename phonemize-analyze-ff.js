@@ -18,11 +18,18 @@ var cmdOpts = require('nomnom')
     help: 'Analyze phoneme follower frequencies within syllables.',
     flag: true
   })
+  .option('reverse', {
+    full: 'reverse',
+    metavar: '<behavior>',
+    help: 'Analyze phoneme *precedent* frequencies.',
+    flag: false
+  })
   .parse();
 
 var analysisStream = createFollowerFreqAnalyzeStream({
 	objectMode: true,
 	analyzeInSyllables: cmdOpts.analyzeInSyllables,
+  reverse: cmdOpts.reverse,
 	done: function analysisDone(error, followerFreqsForPhonemes) {
 		if (error) {
 			console.log(error);

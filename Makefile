@@ -12,6 +12,9 @@ phoneme-follow-frequencies.js: $(CMUDICT)
 phoneme-follow-frequencies-in-syllables.js: $(CMUDICT)
 	cat $(CMUDICT) | node phonemize-analyze-ff.js --make-module --analyze-in-syllables > phoneme-follow-frequencies-in-syllables.js
 
+phoneme-preceding-frequencies-in-syllables.js: $(CMUDICT)
+	cat $(CMUDICT) | node phonemize-analyze-ff.js --make-module --analyze-in-syllables --reverse true > phoneme-preceding-frequencies-in-syllables.js
+
 test-followerfreq-analysis-stream: test/phoneme-follow-frequencies-baseline.js
 	rm phoneme-follow-frequencies.js
 	make phoneme-follow-frequencies.js

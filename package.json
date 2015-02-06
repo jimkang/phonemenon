@@ -1,6 +1,6 @@
 {
   "name": "phonemenon",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A collection of modules and scripts for doing things with phonemes.",
   "main": "phoneme.js",
   "repository": {
@@ -20,6 +20,7 @@
     "lodash": "^2.4.1",
     "nomnom": "^1.8.0",
     "split": "~0.3.0",
-    "through2": "~0.4.1"
+    "through2": "~0.4.1",
+    "phoneme-types": "~1.0.0"
   }
 }

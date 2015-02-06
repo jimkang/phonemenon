@@ -1,5 +1,5 @@
 var through2 = require('through2');
-var typesofphonemes = require('./typesofphonemes');
+var typesofphonemes = require('phoneme-types');
 
 function createStream() {
   var syllablizeThroughStream = through2({

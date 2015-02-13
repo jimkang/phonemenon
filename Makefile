@@ -9,10 +9,10 @@ syllable-follower-analysis.json: $(CMUDICT)
 phoneme-follow-frequencies.js: $(CMUDICT)
 	cat $(CMUDICT) | node phonemize-analyze-ff.js --make-module > phoneme-follow-frequencies.js
 
-phoneme-follow-frequencies-in-syllables.js: $(CMUDICT)
+phoneme-follow-frequencies-in-syllables.json: $(CMUDICT)
 	cat $(CMUDICT) | node phonemize-analyze-ff.js --make-module --analyze-in-syllables > phoneme-follow-frequencies-in-syllables.js
 
-phoneme-preceding-frequencies-in-syllables.js: $(CMUDICT)
+phoneme-preceding-frequencies-in-syllables.json: $(CMUDICT)
 	cat $(CMUDICT) | node phonemize-analyze-ff.js --make-module --analyze-in-syllables --reverse true > phoneme-preceding-frequencies-in-syllables.js
 
 test-followerfreq-analysis-stream: test/phoneme-follow-frequencies-baseline.js

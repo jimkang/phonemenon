@@ -19,7 +19,7 @@ var writableFileStream = fs.createWriteStream(settings.outFilename, {
 
 writableFileStream.on('close', function writableStreamClosed() {
 	var elapsedTime = process.hrtime(start);
-	console.log('Syllablize took %d seconds and %d nanoseconds', 
+	process.stderr.write('Syllablize took %d seconds and %d nanoseconds', 
 		elapsedTime[0], elapsedTime[1]);
 });
 

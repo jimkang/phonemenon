@@ -1,6 +1,6 @@
 {
   "name": "phonemenon",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "description": "A collection of modules and scripts for doing things with phonemes.",
   "main": "phoneme.js",
   "repository": {
@@ -8,8 +8,7 @@
     "url": "git@github.com:jimkang/phonemenon.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "make phoneme-follow-frequencies-in-syllables.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "phonemes",
@@ -18,10 +17,14 @@
   "author": "Jim Kang",
   "license": "ISC",
   "dependencies": {
+    "conform-async": "^1.1.1",
     "lodash": "^2.4.1",
     "nomnom": "^1.8.0",
+    "phoneme-types": "~1.0.0",
     "split": "~0.3.0",
-    "through2": "~0.4.1",
-    "phoneme-types": "~1.0.0"
+    "through2": "~0.4.1"
+  },
+  "devDependencies": {
+    "tape": "^4.0.0"
   }
 }

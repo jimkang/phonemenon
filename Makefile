@@ -29,3 +29,6 @@ test-fit-words:
 	node test/fit-words-to-phonemes-tests.js
 
 test: test-fit-words test-followerfreq-syllable test-followerfreq-analysis-stream
+
+pushall:
+	git push origin master && npm publish

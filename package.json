@@ -1,6 +1,6 @@
 {
   "name": "phonemenon",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "A collection of modules and scripts for doing things with phonemes.",
   "main": "phoneme.js",
   "repository": {

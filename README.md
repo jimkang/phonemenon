@@ -53,25 +53,25 @@ Scripts
 
 A script that pipes [CMU Pronouncing Dictionary](http://www.speech.cs.cmu.edu/cgi-bin/cmudict) text into `syllablize-through`, then pipes that into `syllable-freq-analysis` to get a JSON object that has a key for every possible syllable with a value like this one for "hey/hay":
 
-  "HH-EY": {
-    "M-IY": 2,
-    "V-IH-NG": 3,
-    "M-EY": 3,
-    "G-AH-N": 10,
-    "V-AH-N": 5,
-    "G-AH-N-Z": 3,
-    "B-ER": 6,
-    "B-AH-L": 1,
-    "B-IY": 1,
-    "D-AH-N": 7,
-    "D-ER": 2,
-    "D-IY-Z": 1,
-    "D-AH": 2,
-    "F-ER": 1,
-    "F-IY": 1,
-    "G-AA-R": 1,
-    ...
-  },
+    "HH-EY": {
+      "M-IY": 2,
+      "V-IH-NG": 3,
+      "M-EY": 3,
+      "G-AH-N": 10,
+      "V-AH-N": 5,
+      "G-AH-N-Z": 3,
+      "B-ER": 6,
+      "B-AH-L": 1,
+      "B-IY": 1,
+      "D-AH-N": 7,
+      "D-ER": 2,
+      "D-IY-Z": 1,
+      "D-AH": 2,
+      "F-ER": 1,
+      "F-IY": 1,
+      "G-AA-R": 1,
+      ...
+    },
 
 The value lists all of the syllables that could follow it, along with the *number of times* that the syllable did follow it. There is a special key called 'START' that lists all the syllables that can start a word.
 

@@ -28,4 +28,4 @@ test-followerfreq-syllable: test/phoneme-follow-frequencies-in-syllables-baselin
 test-fit-words:
 	node test/fit-words-to-phonemes-tests.js
 
-test: test-followerfreq-syllable test-followerfreq-analysis-stream
+test: test-fit-words test-followerfreq-syllable test-followerfreq-analysis-stream

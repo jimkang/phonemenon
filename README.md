@@ -51,7 +51,29 @@ Scripts
 
 **phoneme-syllable-analyze.js**
 
-A script that pipes [CMU Pronouncing Dictionary](http://www.speech.cs.cmu.edu/cgi-bin/cmudict) text into `syllablize-through`, then pipes that into `syllable-freq-analysis` to get a JSON object that has a key for every possible syllable whose value is an object listing all of the syllables that could follow it, along with the number of times the syllable did follow it. There is a special key called 'START' that lists all the syllables that can start a word.
+A script that pipes [CMU Pronouncing Dictionary](http://www.speech.cs.cmu.edu/cgi-bin/cmudict) text into `syllablize-through`, then pipes that into `syllable-freq-analysis` to get a JSON object that has a key for every possible syllable with a value like this one for "hey/hay":
+
+  "HH-EY": {
+    "M-IY": 2,
+    "V-IH-NG": 3,
+    "M-EY": 3,
+    "G-AH-N": 10,
+    "V-AH-N": 5,
+    "G-AH-N-Z": 3,
+    "B-ER": 6,
+    "B-AH-L": 1,
+    "B-IY": 1,
+    "D-AH-N": 7,
+    "D-ER": 2,
+    "D-IY-Z": 1,
+    "D-AH": 2,
+    "F-ER": 1,
+    "F-IY": 1,
+    "G-AA-R": 1,
+    ...
+  },
+
+The value lists all of the syllables that could follow it, along with the *number of times* that the syllable did follow it. There is a special key called 'START' that lists all the syllables that can start a word.
 
     cat ../cmudict/cmudict.0.7a | node phoneme-syllable-analyze.js syllable-analysis.json
 
@@ -79,11 +101,11 @@ A script that uses `cmuTextToPhonemeStream.js` to create a line-separated JSON f
 
 A script that pipes [CMU Pronouncing Dictionary](http://www.speech.cs.cmu.edu/cgi-bin/cmudict) lines into `syllablize-through` to get phoneme groups with syllables, then writes those to a file. Example usage:
 
-    cat ../cmudict/cmudict.0.7a | node phonemize-syllablize.js syllable-list.json
+    cat ../cmudict/cmudict.0.7a | node phonemize-syllablize.js phoneme-groups-with-syllables.json
 
 Or:
 
-    make syllable-list.json
+    make phoneme-groups-with-syllables.json
 
 Modules
 -------
@@ -194,8 +216,29 @@ Creates streams that adds `syllables` properties to [phoneme groups](#phoneme-gr
 
 A module for classifying phonemes into the broad categories "consonantish" and "vowelish".
 
+If you want a two-way mapping between phonemes and words, [see word-phoneme-map](https://github.com/jimkang/word-phoneme-map).
 
 License
 -------
 
-MIT.
+The MIT License (MIT)
+
+Copyright (c) 2015 Jim Kang
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

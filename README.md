@@ -216,6 +216,9 @@ Creates streams that adds `syllables` properties to [phoneme groups](#phoneme-gr
 
 A module for classifying phonemes into the broad categories "consonantish" and "vowelish".
 
+See also
+--------
+
 If you want a two-way mapping between phonemes and words, [see word-phoneme-map](https://github.com/jimkang/word-phoneme-map).
 
 License

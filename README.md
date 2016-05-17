@@ -37,6 +37,8 @@ They'll all have a `word` property that is the word that the phoneme group repre
 What do all of these things do?
 ===============================
 
+You can run these scripts via make targets. After you clone this repo, cd into it, run `npm install`, you can run make targets, like `make phoneme-groups-with-syllables.json`, for example.
+
 Makefile targets
 ----------------
 

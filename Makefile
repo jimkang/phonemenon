@@ -25,10 +25,7 @@ test-followerfreq-syllable: test/phoneme-follow-frequencies-in-syllables-baselin
 	make phoneme-follow-frequencies-in-syllables.js
 	diff phoneme-follow-frequencies-in-syllables.js test/phoneme-follow-frequencies-in-syllables-baseline.js
 
-test-fit-words:
-	node test/fit-words-to-phonemes-tests.js
-
-test: test-fit-words test-followerfreq-syllable test-followerfreq-analysis-stream
+test: test-followerfreq-syllable test-followerfreq-analysis-stream
 
 pushall:
 	git push origin master && npm publish

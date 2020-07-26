@@ -1,9 +1,8 @@
-// It's a stream that analyzes phoneme groups you write to it, then returns the 
+// It's a stream that analyzes phoneme groups you write to it, then returns the
 // analysis via the callback when the end is reached.
 
 var Writable = require('stream').Writable;
-var util = require('util');
-var _ = require('lodash');
+var pluck = require('lodash.pluck');
 
 function createAnalyzeFollowerStream(opts) {
   var followerFreqsForPhonemes = {};
@@ -20,7 +19,7 @@ function createAnalyzeFollowerStream(opts) {
     callback();
   };
 
-  analyzeStream.end = function end(callback) {
+  analyzeStream.end = function end() {
     if (opts.done) {
       opts.done(null, followerFreqsForPhonemes);
     }
@@ -38,9 +37,9 @@ function createAnalyzeFollowerStream(opts) {
   //     {"phoneme":"N","stress":-1},
   //     {"phoneme":"IY","stress":0}
   //   ]
-  //  
+  //
   // }
-  // 
+  //
   // They may also have this optional syllables array:
   //   "syllables": [
   //     [
@@ -64,9 +63,8 @@ function createAnalyzeFollowerStream(opts) {
     var phonemeSequence;
     if (opts.analyzeInSyllables) {
       group.syllables.forEach(recordPhonemeSequenceFrequencies);
-    }
-    else {
-      phonemeSequence = _.pluck(group.phonemes, 'phoneme');
+    } else {
+      phonemeSequence = pluck(group.phonemes, 'phoneme');
       recordPhonemeSequenceFrequencies(phonemeSequence);
     }
   }
@@ -78,27 +76,24 @@ function createAnalyzeFollowerStream(opts) {
     if (opts.reverse) {
       phonemeSequence = ['START'].concat(sequence);
       previousPhoneme = 'END';
-    }
-    else {
+    } else {
       phonemeSequence = sequence.concat('END');
       previousPhoneme = 'START';
     }
-    
+
     for (var i = 0; i < phonemeSequence.length; ++i) {
       var phoneme;
       if (opts.reverse) {
         phoneme = phonemeSequence[phonemeSequence.length - 1 - i];
-      }
-      else {
-        phoneme = phonemeSequence[i];        
+      } else {
+        phoneme = phonemeSequence[i];
       }
 
       if (previousPhoneme) {
         var freqs = {};
         if (previousPhoneme in followerFreqsForPhonemes) {
           freqs = followerFreqsForPhonemes[previousPhoneme];
-        }
-        else {
+        } else {
           followerFreqsForPhonemes[previousPhoneme] = freqs;
         }
 
@@ -109,7 +104,7 @@ function createAnalyzeFollowerStream(opts) {
         frequency += 1;
         freqs[phoneme] = frequency;
       }
-      previousPhoneme = phoneme;  
+      previousPhoneme = phoneme;
     }
   }
 
